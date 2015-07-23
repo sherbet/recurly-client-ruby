@@ -35,6 +35,7 @@ module Recurly
       closed_at
       line_items
       transactions
+      amount_remaining_in_cents
     )
     alias to_param invoice_number
 

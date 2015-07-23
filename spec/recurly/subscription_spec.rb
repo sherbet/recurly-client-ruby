@@ -5,25 +5,38 @@ describe Subscription do
     subject { Subscription }
 
     it "has all expected attributes" do
-      expected_attributes = %w{ uuid
-                                state
-                                unit_amount_in_cents
-                                currency
-                                quantity
-                                activated_at
+      expected_attributes = %w{ activated_at
+                                address
+                                bank_account_authorized_at
+                                bulk
                                 canceled_at
-                                expires_at
-                                current_period_started_at
-                                current_period_ends_at
-                                trial_started_at
-                                trial_ends_at
-                                pending_subscription
-                                subscription_add_ons
-                                coupon_code
-                                net_terms
                                 collection_method
+                                cost_in_cents
+                                coupon_code
+                                currency
+                                current_period_ends_at
+                                current_period_started_at
+                                customer_notes
+                                expires_at
+                                net_terms
+                                pending_subscription
                                 po_number
-                                total_billing_cycles}
+                                quantity
+                                remaining_billing_cycles
+                                state
+                                subscription_add_ons
+                                tax_in_cents
+                                tax_rate
+                                tax_region
+                                tax_type
+                                terms_and_conditions
+                                total_billing_cycles
+                                trial_ends_at
+                                trial_started_at
+                                unit_amount_in_cents
+                                uuid
+                                vat_reverse_charge_notes
+                              }
 
         subject.attribute_names.sort.must_equal expected_attributes.sort
       end

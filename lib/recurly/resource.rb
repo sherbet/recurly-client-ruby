@@ -443,7 +443,7 @@ module Recurly
       # actual class.
       def find_association_class_name(element)
         element_name = {"original_invoice" => "Invoice"}[element.name]
-        element.name = element_name if element_name.present? 
+        element.name = element_name if element_name 
         element
       end
 

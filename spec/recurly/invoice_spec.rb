@@ -17,4 +17,60 @@ describe Invoice do
       invoice.subscription.must_equal nil
     end
   end
+
+  describe "line item refund" do
+    before do
+      stub_api_request :get, 'invoices/refundable-invoice', 'invoices/show-200-refundable'
+      stub_api_request :post, 'invoices/refundable-invoice/refund', 'invoices/refund-201'
+
+      @invoice = Invoice.find 'refundable-invoice'
+
+      @line_items = @invoice.line_items.values.map do |adjustment|
+        { adjustment: adjustment, quantity: 1, prorate: false }
+      end
+    end
+
+    describe "#refund" do
+      it "creates a refund invoice for the line items refunded" do
+        refund_invoice = @invoice.refund @line_items
+        refund_invoice.must_be_instance_of Invoice
+        refund_invoice.line_items.each do |key, adjustment|
+          adjustment.quantity_remaining.must_equal 1
+        end
+      end
+    end
+
+    describe "#refund_to_xml" do
+      it "must serialize line_items" do
+        @invoice.send(:refund_line_items_to_xml, @line_items, 'credit').must_equal(
+          '<invoice><refund_apply_order>credit</refund_apply_order><line_items><adjustment><uuid>charge1</uuid><quantity>1</quantity><prorate>false</prorate></adjustment></line_items></invoice>'
+        )
+      end
+    end
+  end
+
+  describe "open amount refund" do
+    before do
+      stub_api_request :get, 'invoices/refundable-invoice', 'invoices/show-200-refundable'
+      stub_api_request :post, 'invoices/refundable-invoice/refund', 'invoices/refund_amount-201'
+
+      @invoice = Invoice.find 'refundable-invoice'
+    end
+
+    describe "#refund" do
+      it "creates a refund invoice for the line items refunded" do
+        refund_invoice = @invoice.refund_amount 1000
+        refund_invoice.must_be_instance_of Invoice
+        refund_invoice.amount_remaining_in_cents.must_equal 100
+      end
+    end
+
+    describe "#refund_to_xml" do
+      it "must serialize amount_in_cents" do
+        @invoice.send(:refund_amount_to_xml, 1000, 'credit').must_equal(
+          '<invoice><refund_apply_order>credit</refund_apply_order><amount_in_cents>1000</amount_in_cents></invoice>'
+        )
+      end
+    end
+  end
 end
