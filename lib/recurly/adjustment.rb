@@ -27,6 +27,7 @@ module Recurly
       discount_in_cents
       tax_in_cents
       total_in_cents
+      quantity_remaining
       currency
       taxable
       product_code

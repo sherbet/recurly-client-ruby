@@ -392,6 +392,7 @@ module Recurly
         end
 
         xml.each_element do |el|
+          el = find_association_class_name(el)
           if el.name == 'a'
             record.links[el.attribute('name').value] = {
               :method => el.attribute('method').to_s,
@@ -435,6 +436,15 @@ module Recurly
         @associations ||= {
           :has_many => [], :has_one => [], :belongs_to => []
         }
+      end
+
+      # @return [String, nil] The actual associated resource class name
+      # for the current class if the resource class does not match the
+      # actual class.
+      def find_association_class_name(element)
+        element_name = {"original_invoice" => "Invoice"}[element.name]
+        element.name = element_name if element_name 
+        element
       end
 
       def associations_helper
