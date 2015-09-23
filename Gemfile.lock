@@ -241,3 +241,6 @@ DEPENDENCIES
   rubysl-resolv (~> 2.0)
   webmock (~> 1.7.6)
   yard
+
+BUNDLED WITH
+   1.10.6
