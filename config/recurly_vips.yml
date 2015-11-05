@@ -1,0 +1,22 @@
+development: &defaults
+  :base_uri: 'https://qvip-ext-recurly.slingtv.com/v2/'
+
+qa:
+  :base_uri: 'https://qvip-ext-recurly.slingtv.com/v2/'
+
+qa_grn:
+  :base_uri: 'https://qvip-ext-recurly.slingtv.com/v2/'
+
+beta:
+  :base_uri: 'https://bvip-ext-recurly.slingtv.com/v2/'
+
+
+production:
+  :base_uri: 'https://pvip-ext-recurly.slingtv.com/v2/'
+
+
+test:
+  <<: *defaults
+
+dev:
+  <<: *defaults

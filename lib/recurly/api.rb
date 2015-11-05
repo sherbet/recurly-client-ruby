@@ -1,3 +1,4 @@
+require 'pry'
 module Recurly
   # The API class handles all requests to the Recurly API. While most of its
   # functionality is leveraged by the Resource class, it can be used directly,
@@ -13,8 +14,11 @@ module Recurly
   #   Recurly::API.delete 'accounts/1'        # => #<Net::HTTPNoContent ...>
   class API
     require 'recurly/api/errors'
-
-    @@base_uri = "https://api.recurly.com/v2/"
+    RECURLY_HOME = File.realpath(File.join(File.dirname(__FILE__), '..', '..'))
+    DEFAULT_FILE = File.join(RECURLY_HOME, 'config', 'recurly_vipss.yml')
+    RECURLY_VIPS = YAML.load_file(DEFAULT_FILE)
+    binding.pry
+    @@base_uri = RECURLY_VIPS[Rails.env][:base_uri]
 
     FORMATS = Helper.hash_with_indifferent_read_access(
       'pdf' => 'application/pdf',
