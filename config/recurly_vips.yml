@@ -1,5 +1,5 @@
 development: &defaults
-  :base_uri: 'https://qvip-ext-recurly.slingtv.com/v2/'
+  :base_uri: 'http://qvip-ext-recurly.slingtv.com/v2/'
 
 qa:
   :base_uri: 'https://qvip-ext-recurly.slingtv.com/v2/'
