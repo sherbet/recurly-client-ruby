@@ -15,9 +15,8 @@ module Recurly
   class API
     require 'recurly/api/errors'
     RECURLY_HOME = File.realpath(File.join(File.dirname(__FILE__), '..', '..'))
-    DEFAULT_FILE = File.join(RECURLY_HOME, 'config', 'recurly_vipss.yml')
+    DEFAULT_FILE = File.join(RECURLY_HOME, 'config', 'recurly_vips.yml')
     RECURLY_VIPS = YAML.load_file(DEFAULT_FILE)
-    binding.pry
     @@base_uri = RECURLY_VIPS[Rails.env][:base_uri]
 
     FORMATS = Helper.hash_with_indifferent_read_access(
