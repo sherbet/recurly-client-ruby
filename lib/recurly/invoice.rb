@@ -19,7 +19,11 @@ module Recurly
     belongs_to :subscription
 
     # @return [Redemption]
-    has_one :redemption
+    has_many :redemptions
+
+    def redemption
+      redemptions.first
+    end
 
     define_attribute_methods %w(
       uuid
