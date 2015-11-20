@@ -13,10 +13,12 @@ module Recurly
     belongs_to :account, :readonly => false
 
     define_attribute_methods %w(
+      uuid
       single_use
       total_discounted_in_cents
       currency
       state
+      subscription_uuid
       created_at
     )
 

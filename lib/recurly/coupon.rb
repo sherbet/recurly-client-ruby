@@ -39,18 +39,7 @@ module Recurly
       raise Recurly::Error, "#{self.class.collection_name} cannot be updated"
     end
 
-    # Redeem a coupon with a given account or account code.
-    #
-    # @return [true]
-    # @param account_or_code [Account, String]
-    # @example
-    #   coupon = Coupon.find coupon_code
-    #   coupon.redeem account_code
-    #
-    #   coupon = Coupon.find coupon_code
-    #   account = Account.find account_code
-    #   coupon.redeem account
-    def redeem account_or_code, currency = nil
+    def redeem account_or_code, currency = nil, extra_opts={}
       return false unless link? :redeem
 
       account_code = if account_or_code.is_a? Account
@@ -59,17 +48,21 @@ module Recurly
         account_or_code
       end
 
+      redemption_options = {
+        :account_code => account_code,
+        :currency     => currency || Recurly.default_currency
+      }.merge(extra_opts)
+
+      redemption = redemptions.new(redemption_options)
+
       Redemption.from_response follow_link(:redeem,
-        :body => (redemption = redemptions.new(
-          :account_code => account_code,
-          :currency     => currency || Recurly.default_currency
-        )).to_xml
+        :body => redemption.to_xml
       )
     rescue API::UnprocessableEntity => e
       redemption.apply_errors e
       redemption
     end
-
+    
     def redeem! account_code, currency = nil
       redemption = redeem account_code, currency
       raise Invalid.new(self) unless redemption.persisted?
