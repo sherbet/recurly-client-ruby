@@ -18,6 +18,7 @@ module Recurly
       total_discounted_in_cents
       currency
       state
+      coupon_code
       subscription_uuid
       created_at
     )

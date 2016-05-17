@@ -62,7 +62,7 @@ module Recurly
       redemption.apply_errors e
       redemption
     end
-    
+
     def redeem! account_code, currency = nil
       redemption = redeem account_code, currency
       raise Invalid.new(self) unless redemption.persisted?
